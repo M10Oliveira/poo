@@ -1,0 +1,63 @@
+CREATE DATABASE IF NOT EXISTS db_lavacao;
+USE db_lavacao;
+
+CREATE TABLE marca(
+   id int NOT NULL auto_increment,
+   nome  varchar(50) NOT NULL,
+   CONSTRAINT pk_marca
+      PRIMARY KEY(id)
+);      
+CREATE TABLE modelo(
+   id int NOT NULL auto_increment,
+   descricao  varchar(50) NOT NULL,
+   id_marca int not null,
+   CONSTRAINT pk_modelo
+      PRIMARY KEY(id),
+         CONSTRAINT fk_modelo_marca
+      FOREIGN KEY(id_marca)
+      REFERENCES marca(id)
+
+);
+
+CREATE TABLE cor(
+	id int NOT NULL auto_increment,
+	nome varchar(40) NOT NULL,
+    constraint pk_cor
+		primary key (id)
+);
+
+create table veiculo(
+	id int not null auto_increment,
+    placa varchar(7) not null,
+    observacoes varchar(100),
+    id_cor int not null,
+    id_modelo int not null,
+    constraint pk_veiculo
+		primary key(id),
+        constraint fk_veiculo_cor
+         foreign key(id_cor)
+         references cor(id),
+         constraint fk_veiculo_modelo
+         foreign key(id_modelo)
+         references modelo(id)
+ );
+ 
+insert into marca(nome) values('BMW');
+insert into marca(nome) values('HONDA');
+insert into marca(nome) values('FORD');
+insert into marca(nome) values('GM'); 
+
+insert into modelo(descricao, id_marca) values('320i', 1);
+insert into modelo(descricao, id_marca) values('CIVIC', 2);
+insert into modelo(descricao, id_marca) values('EDGE', 3);
+insert into modelo(descricao, id_marca) values('CELTA', 4);
+ 
+insert into cor(nome) values('VERMELHO');
+insert into cor(nome) values('AZUL');
+insert into cor(nome) values('PRETO');
+insert into cor(nome) values('BRANCO');
+
+insert into veiculo(placa, observacoes, id_cor, id_modelo) values("ABC1234", "Restrovisor direito quebrado", 1, 2);
+insert into veiculo(placa, observacoes, id_cor, id_modelo) values("IVR7F97", "Restrovisor esquerdo quebrado", 2, 1);
+insert into veiculo(placa, observacoes, id_cor, id_modelo) values("BPP4470", "Limpar bem os tapetes", 3, 4);
+insert into veiculo(placa, id_cor, id_modelo) values("QIJ4958", 4, 3);
